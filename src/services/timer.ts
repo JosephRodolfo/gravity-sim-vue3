@@ -1,4 +1,4 @@
-interface Timer {
+export interface Timer {
     running: boolean,
     iv: number,
     timeout: number,

@@ -1,13 +1,10 @@
 <script setup lang="ts">
-import MainCanvas from './components/Canvas.vue';
-import Controls from './components/Controls.vue';
+import Dashboard from './components/Dashboard.vue';
 </script>
 
 <template>
   <div>
-    <MainCanvas></MainCanvas>
-    <Controls></Controls>
-
+    <Dashboard></Dashboard>
   </div>
 </template>
 
