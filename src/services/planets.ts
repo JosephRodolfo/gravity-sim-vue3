@@ -1,5 +1,6 @@
 
- 
+ import { twoBodyDefaultSettings } from "../defaults/defaults";
+import { AllBodies } from "./allBodies";
  
  class Planet {
     constructor(mass: number, xCoord: number, yCoord: number, xVelocity: number, yVelocity: number) {
@@ -8,6 +9,7 @@
         this.yCoord = yCoord;
         this.xVelocity = xVelocity;
         this.yVelocity = yVelocity;
+
     }
     mass: number;
     xCoord: number;
@@ -27,7 +29,7 @@
 
 }
 
- class System {
+ class System implements AllBodies {
     constructor(planet1: Planet, planet2: Planet) {
         this.planet1 = planet1;
         this.planet2 = planet2;
@@ -72,17 +74,24 @@
         this.planet2.updateYVelocity(this.ay2, this.time);
         this.planet1.updatePosition(this.time);
         this.planet2.updatePosition(this.time);
-       return [{ x: this.planet1.xCoord, y: this.planet1.yCoord, radius: 10 }, { x: this.planet2.xCoord, y: this.planet2.yCoord, radius: 10 } ]
+       return [{ x: this.planet1.xCoord, y: this.planet1.yCoord, radius: 10, scaleMultiplier: 1000 }, { x: this.planet2.xCoord, y: this.planet2.yCoord, radius: 10, scaleMultiplier: 1000 } ]
     }
     setTime(time: number) {
         this.time = time;
     }
     reset(){
-        this.time = 0;
+        this.planet1.xCoord = twoBodyDefaultSettings.planet1Settings.xCoord;
+        this.planet1.yCoord = twoBodyDefaultSettings.planet1Settings.yCoord;
+        this.planet1.mass =twoBodyDefaultSettings.planet1Settings.mass;
+        this.planet1.xVelocity = twoBodyDefaultSettings.planet1Settings.xVelocity;
+        this.planet1.yVelocity = twoBodyDefaultSettings.planet1Settings.yVelocity;
+        this.planet2.xCoord = twoBodyDefaultSettings.planet2Settings.xCoord;
+        this.planet2.yCoord = twoBodyDefaultSettings.planet2Settings.yCoord;
+        this.planet2.mass =twoBodyDefaultSettings.planet2Settings.mass;
+        this.planet2.xVelocity = twoBodyDefaultSettings.planet2Settings.xVelocity;
+        this.planet2.yVelocity = twoBodyDefaultSettings.planet2Settings.yVelocity;
+        this.setTime(0);
     }
 
 }
-
-// const planet1 = new Planet(999999999999999, 30000, 20000, .9, -.1);
-// const planet2 = new Planet(-9000000000000000, 250000, 250000, 0.0, 0.0);
 export { System, Planet };

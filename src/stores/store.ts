@@ -8,21 +8,44 @@ export const useSettingsStore = defineStore('gravitySettings', () => {
     const running = ref(true);
     const selector = ref('one');
 
-    const {planet1Settings , planet2Settings} = twoBodyDefaultSettings;
-    const { mass: planet1Mass, xCoord: planet1Xcoord, yCoord: planet1YCoord, xVelocity: planet1xVelocity, yVelocity: planet1yVelocity } = planet1Settings;
-    const { mass: planet2Mass, xCoord: planet2Xcoord, yCoord: planet12Coord, xVelocity: planet2xVelocity, yVelocity: planet2yVelocity } = planet2Settings;
+    const { planet1Settings, planet2Settings } = twoBodyDefaultSettings;
+    // const { mass: planet1Mass, xCoord: planet1Xcoord, yCoord: planet1YCoord, xVelocity: planet1xVelocity, yVelocity: planet1yVelocity } = planet1Settings;
+    // const { mass: planet2Mass, xCoord: planet2Xcoord, yCoord: planet12Coord, xVelocity: planet2xVelocity, yVelocity: planet2yVelocity } = planet2Settings;
 
 
 
-    const twoBodySettings = reactive({
+    const twoBodySettingsPlanet1 = reactive({
+        ...planet1Settings
+    });
+    const twoBodySettingsPlanet2 = reactive({
+        ...planet2Settings
     });
 
 
     function reset() {
 
-        
-
     }
+interface PlanetSettings {
+mass: number,
+    xCoord: number,
+    yCoord: number,
+    xVelocity: number,
+    yVelocity: number,
+}
+
+
+function setPlanetSettings(newSettings: PlanetSettings) {
+
+    Object.keys(newSettings).forEach((setting)=>{
+     if (newSettings[setting as keyof PlanetSettings] === twoBodySettingsPlanet1[setting as keyof PlanetSettings]){
+         // twoBodySettingsPlanet1[string].value = newSettings[string]
+     }
+
+    })
+
+     }
+
+    
     function toggleOrbit() {
         running.value = !running.value;
     }
@@ -40,8 +63,7 @@ export const useSettingsStore = defineStore('gravitySettings', () => {
     function setSemiMajorAxis(newSemiMajorAxis: number) {
         semiMajorAxis.value = newSemiMajorAxis;
     }
-    
 
-    return { speed, eccentricity, semiMajorAxis, running, selector, toggleOrbit, setSpeed, setEccentricity, setSemiMajorAxis, setSelector, reset }
-  })
-  
+
+    return { speed, eccentricity, semiMajorAxis, running, selector, twoBodySettingsPlanet1, twoBodySettingsPlanet2, toggleOrbit, setSpeed, setEccentricity, setSemiMajorAxis, setSelector, reset, setPlanetSettings }
+})

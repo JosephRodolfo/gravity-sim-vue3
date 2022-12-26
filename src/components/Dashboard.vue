@@ -2,7 +2,7 @@
 <template>
     <div>
         <MainCanvas :circles="circleProps"></MainCanvas>
-        <Controls></Controls>
+        <Controls @reset="reset"></Controls>
 
     </div>
 </template>
@@ -19,11 +19,11 @@ import { useSettingsStore } from '../stores/store';
 import { Circles } from '../services/circles';
 const store = useSettingsStore();
 
-const { eccentricity, semiMajorAxis, speed, running } = storeToRefs(store);
+const { eccentricity, semiMajorAxis, speed, running, twoBodySettingsPlanet1, twoBodySettingsPlanet2 } = storeToRefs(store);
 
 const circleProps: Array<Circles> | any = ref([])
-const planet1 = new Planet(twoBodyDefaultSettings.planet1Settings.mass, twoBodyDefaultSettings.planet1Settings.xCoord, twoBodyDefaultSettings.planet1Settings.yCoord, twoBodyDefaultSettings.planet1Settings.xVelocity, twoBodyDefaultSettings.planet1Settings.yVelocity);
-const planet2 = new Planet(twoBodyDefaultSettings.planet2Settings.mass, twoBodyDefaultSettings.planet2Settings.xCoord, twoBodyDefaultSettings.planet2Settings.yCoord, twoBodyDefaultSettings.planet2Settings.xVelocity, twoBodyDefaultSettings.planet2Settings.yVelocity);
+const planet1 = new Planet(twoBodySettingsPlanet1.value.mass, twoBodySettingsPlanet1.value.xCoord, twoBodySettingsPlanet1.value.yCoord, twoBodySettingsPlanet1.value.xVelocity, twoBodySettingsPlanet1.value.yVelocity);
+const planet2 = new Planet(twoBodySettingsPlanet2.value.mass, twoBodySettingsPlanet2.value.xCoord, twoBodySettingsPlanet2.value.yCoord, twoBodySettingsPlanet2.value.xVelocity, twoBodySettingsPlanet2.value.yVelocity);
 const system = new System(planet1, planet2);
 const controller = new Controller(timer, system);
 
@@ -34,21 +34,18 @@ onMounted(() => {
     );
 
 })
+function reset() {
+    controller.reset();
+}
 
 watch([speed, running], () => {
-    console.log(running)
     if (!running.value) {
         controller.stop();
-
     } else {
         controller.start(speed.value, () => {
             circleProps.value = controller.getCircles
-
         })
     }
-
-
-
 })
 
 

@@ -20,7 +20,7 @@ onMounted(() => {
     drawSequence(myContext!)
 })
 
-watch(() => props.circles, () => {
+watch([props], () => {
     const myContext = canvasRef.value?.getContext('2d');
     drawSequence(myContext!)
 })
@@ -28,8 +28,7 @@ watch(() => props.circles, () => {
 function drawSequence(context: CanvasRenderingContext2D) {
     canvasDrawer.clearBackground(context);
     props.circles!.forEach((circle: Circles) => {
-        // canvasDrawer.drawCircle(circle.x, circle.y, circle.radius, context)
-               canvasDrawer.drawCircle( circle.x/1000, circle.y/1000, 10, context);
+        canvasDrawer.drawCircle(circle.x / circle.scaleMultiplier, circle.y / circle.scaleMultiplier, circle.radius, context);
     })
 
 }

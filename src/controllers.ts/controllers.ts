@@ -1,14 +1,15 @@
+import { AllBodies } from "../services/allBodies";
 import { System } from "../services/planets";
 import { Timer } from "../services/timer";
 
 export class Controller {
 
-    constructor(timer: Timer, system: System) {
+    constructor(timer: Timer, system: AllBodies) {
         this.timer = timer;
         this.system = system;
     }
     timer: Timer;
-    system: System;
+    system: AllBodies;
 
     increment() {
         this.system.time+=1

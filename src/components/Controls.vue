@@ -13,7 +13,10 @@
             <option value="two">Two Body</option>
 
         </select>
-        <button @click="reset">Reset</button>
+        <button @click="$emit('reset')">Reset</button>
+        <div class="two-body-controls">
+            <TwoBodyControlsVue></TwoBodyControlsVue>
+        </div>
     </div>
 </template>
 
@@ -21,16 +24,13 @@
 import { useSettingsStore } from '../stores/store';
 import { computed } from 'vue';
 import { storeToRefs } from 'pinia';
+import TwoBodyControlsVue from './TwoBodyControls.vue';
 
 const store = useSettingsStore();
 const { speed, eccentricity, semiMajorAxis, selector } = storeToRefs(store);
 
 function handleToggleClick() {
     store.toggleOrbit();
-}
-
-function reset() {
-    store.reset();
 }
 const inputSpeed = computed({
     get() {
